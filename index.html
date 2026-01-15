@@ -13,19 +13,32 @@
     padding: 0;
 }
 
-/* BODY */
+/* BODY + ANIMASI BACKGROUND */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f2f4f7;
+    background:
+        radial-gradient(circle at 10% 20%, #e3f2fd, transparent 40%),
+        radial-gradient(circle at 90% 80%, #ede7f6, transparent 40%),
+        linear-gradient(135deg, #f5f7fa, #e4ebf5);
+    background-size: 200% 200%;
+    animation: bgMove 30s ease-in-out infinite;
     color: #333;
     line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ANIMASI BACKGROUND */
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* HEADER */
 header {
     background: linear-gradient(135deg, #2c3e50, #3498db);
     color: white;
-    padding: 30px 15px;
+    padding: 35px 15px;
     text-align: center;
 }
 
@@ -42,11 +55,12 @@ header p {
 nav {
     position: sticky;
     top: 0;
-    background: #fff;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-around;
-    padding: 10px 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 12px 5px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     z-index: 100;
 }
 
@@ -60,10 +74,28 @@ nav a {
 /* SECTION */
 section {
     margin: 15px;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 22px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    animation: fadeUp 0.8s ease both;
+}
+
+/* ANIMASI SECTION */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 section h2 {
@@ -72,17 +104,13 @@ section h2 {
     font-size: 1.3em;
 }
 
-/* KEGIATAN CARD */
+/* KEGIATAN */
 .kegiatan {
     background: #f8f9fb;
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 12px;
     border-left: 4px solid #3498db;
-}
-
-.kegiatan h4 {
-    margin-bottom: 5px;
 }
 
 /* GALERI */
@@ -97,12 +125,42 @@ section h2 {
     height: 140px;
     object-fit: cover;
     border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-/* KONTAK */
-.kontak p {
-    margin: 6px 0;
-    font-size: 0.95em;
+.galeri img:hover {
+    transform: scale(1.05);
+}
+
+.galeri figcaption {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 4px;
+    color: #555;
+}
+
+/* MODAL */
+#imgModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+#imgModal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 /* FOOTER */
@@ -119,12 +177,10 @@ footer {
         justify-content: center;
         gap: 30px;
     }
-
     section {
         max-width: 900px;
         margin: 20px auto;
     }
-
     .galeri {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -184,34 +240,26 @@ footer {
 <section id="galeri">
     <h2>Galeri</h2>
     <div class="galeri">
-
-    <figure>
-        <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto2.jpg">
-        <figcaption>makan-makan</figcaption>
-    </figure>
-
-    <figure>
-        <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto3.jpg">
-        <figcaption>liwetan</figcaption>
-    </figure>
-
-    <figure>
-        <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto4.jpg">
-        <figcaption>musyawarah perencanaan kegiatan</figcaption>
-    </figure>
-
-    <figure>
-        <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto5.jpg">
-        <figcaption>pengajian dirumah pengurus</figcaption>
-    </figure>
-
-</div>
-
-
+        <figure>
+            <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto2.jpg" onclick="openImg(this)">
+            <figcaption>makan-makan</figcaption>
+        </figure>
+        <figure>
+            <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto3.jpg" onclick="openImg(this)">
+            <figcaption>liwetan</figcaption>
+        </figure>
+        <figure>
+            <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto4.jpg" onclick="openImg(this)">
+            <figcaption>musyawarah perencanaan kegiatan</figcaption>
+        </figure>
+        <figure>
+            <img src="https://uploads.onecompiler.io/44aahqfdy/44aahpqcq/foto5.jpg" onclick="openImg(this)">
+            <figcaption>pengajian dirumah pengurus</figcaption>
+        </figure>
     </div>
 </section>
 
-<section id="kontak" class="kontak">
+<section id="kontak">
     <h2>Kontak</h2>
     <p>📍 Jl. swadaya 2 kp.pondok manggis</p>
     <p>📧 mumikincir354@email.com</p>
@@ -219,8 +267,22 @@ footer {
 </section>
 
 <footer>
-    © 2026 Mumi kincir 
+    © 2026 Mumi kincir
 </footer>
+
+<div id="imgModal" onclick="closeImg()">
+    <img id="modalImg">
+</div>
+
+<script>
+function openImg(img) {
+    document.getElementById("imgModal").style.display = "flex";
+    document.getElementById("modalImg").src = img.src;
+}
+function closeImg() {
+    document.getElementById("imgModal").style.display = "none";
+}
+</script>
 
 </body>
 </html>
